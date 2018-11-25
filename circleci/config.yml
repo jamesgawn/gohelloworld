@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+    - checkout
+
+    # build the application image
+    - run:
+      name: Build Docker File
+      command: docker build -t $DOCKER_IMAGE_NAME .
+
+    # deploy the image
+    - run:
+      name: Push Docker Image
+      command: |
+        TAG=0.1.$CIRCLE_BUILD_NUMBER
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
+        docker push $DOCKER_IMAGE_NAME:$TAG
