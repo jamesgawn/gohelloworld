@@ -11,15 +11,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       - name: install buildx
         id: buildx
         uses: crazy-max/ghaction-docker-buildx@v1
         with:
           version: latest
       - name: Logging in to Docker
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        run: cat ~/GH_TOKEN.txt | docker login docker.pkg.github.com/ -u jamesgawn --password-stdin
       - name: Publish to Registry
         run: |
           docker buildx build --push \
-            --tag jamesgawn/gohelloworld:latest \
+            --tag docker.pkg.github.com//jamesgawn/gohelloworld/gohelloworld:latest \
+            --tag docker.pkg.github.com//jamesgawn/gohelloworld/gohelloworld:${{ steps.get_version.outputs.VERSION }} \
             --platform linux/amd64,linux/arm/v7,linux/arm64 .
