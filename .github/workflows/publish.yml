@@ -24,6 +24,6 @@ jobs:
       - name: Publish to Registry
         run: |
           docker buildx build --push \
-            --tag docker.pkg.github.com//jamesgawn/gohelloworld/gohelloworld:latest \
-            --tag docker.pkg.github.com//jamesgawn/gohelloworld/gohelloworld:${{ steps.get_version.outputs.TAG }} \
+            --tag docker.pkg.github.com/jamesgawn/gohelloworld/gohelloworld:latest \
+            --tag docker.pkg.github.com/jamesgawn/gohelloworld/gohelloworld:${{ steps.get_version.outputs.TAG }} \
             --platform linux/amd64,linux/arm/v7,linux/arm64 .
