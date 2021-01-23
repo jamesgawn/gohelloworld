@@ -20,4 +20,4 @@ jobs:
           push: true
           tags: |
             jamesgawn/gohelloworld:latest
-            jamesgawn/gohelloworld:${GITHUB_REF##*/}
+            jamesgawn/gohelloworld:${{ GITHUB_REF##*/ }}
