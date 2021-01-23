@@ -2,7 +2,7 @@ name: Publish Pipeline
 on:
   push:
     tags:
-      - 'v*'
+      - '*.*.*'
 
 jobs:
   docker-publish:
@@ -11,15 +11,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: install buildx
-        id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
-          version: latest
-      - name: Logging in to Docker
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-      - name: Publish to Registry
-        run: |
-          docker buildx build --push \
-            --tag jamesgawn/gohelloworld:latest \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 .
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          push: true
+          tags: |
+            jamesgawn/gohelloworld:latest
+            jamesgawn/gohelloworld:${GITHUB_REF##*/}
