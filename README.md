@@ -3,5 +3,5 @@ A simple hello world web server implementation in go configured for deployment i
 
 You can simply run the container using the following command:
 ```bash
-docker run --rm -p 8080:8080 --name gohelloworld -d jamesgawn/gohelloworld
+docker run --rm -p 8080:8080 --name gohelloworld -d ghcr.io/jamesgawn/gohelloworld
 ```
