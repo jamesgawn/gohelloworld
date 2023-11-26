@@ -19,6 +19,7 @@ func main() {
 		log.Printf("User-Agent: %s", r.UserAgent())
 		log.Printf("Source Host: %s", r.Host)
 		log.Printf("Remote Address: %s", r.RemoteAddr)
+		log.Printf("X-Forward-Address: %s", r.Header.Get("X-Forwarded-For"))
 		log.Printf("Path: %s", r.URL.Path)
 	})
 
